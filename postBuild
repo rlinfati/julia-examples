@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# AMPL Install
+mkdir $HOME/ampl.linux64 && \
+cd $HOME/ampl.linux64 && \
+wget -q https://ampl.com/demo/ampl.linux64.tgz && \
+tar zxf ampl.linux64.tgz --strip-components=1 && \
+rm ampl.linux64.tgz && \
+echo OK
