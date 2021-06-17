@@ -32,6 +32,8 @@ XLSX.openxlsx("elmer1.xlsx", mode="w") do xf
     push!(df_run , "8638-CLASI", "8639-CLASI", "8640-CLASI", "9063-INVER", "9062-INVER", "9060-INVER")
     push!(df_run , "8994-F1", "10020-F1", "8992-F1", "10021-F1", "10063-F1", "8993-F1", "10064-F1")
     push!(df_run , "8088-M", "8710-CLASI")
+    push!(df_run , "8054-M", "8625-CLASI")
+    push!(df_run , "9569-A", "9570-A")
 
     df_cols = [Symbol("Rentb1 mes"), :Rentb3m, :RentbY, :Rentb12m]
     push!(df_cols , :varpar1m, :varpar1Y, :FondoFull, :adm, :TAC, :Fondo)
