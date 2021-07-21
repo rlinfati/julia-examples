@@ -36,7 +36,7 @@ function main()
     amplexe = "/Users/rlinfati/Applications/ampl_macos64/xpress" # MILP
     amplexe = "/Users/rlinfati/Applications/ampl_macos64/knitro" # MILP, MINLP
     minlpSOLVER = () -> AmplNLWriter.Optimizer(amplexe)
-    minlpSOLVER = () -> NEOSServer.Optimizer(email="neos@linfati.cl", solver="MOSEK")
+    minlpSOLVER = () -> NEOSServer.Optimizer(email="user@domain.tld", solver="MOSEK")
     # CPLEX, FICO-Xpress, Gurobi, Ipopt, MOSEK and SNOPT.
 
     # ** MINLP **

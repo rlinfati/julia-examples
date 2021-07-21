@@ -10,6 +10,7 @@ function modelPM(xy_c::Array{Float64,2}, xy_f::Array{Float64,2}, p::Int)
     dist(c, f) = sqrt((xy_c[c,1] - xy_f[f,1])^2 + (xy_c[c,2] - xy_f[f,2])^2)
 
     model = JuMP.Model()
+
     @variable(model, x[1:m], Bin)
     @variable(model, y[1:n,1:m] >= 0)
 
@@ -37,6 +38,7 @@ function modelPC(xy_c::Array{Float64,2}, xy_f::Array{Float64,2}, p::Int)
     dist(c, f) = sqrt((xy_c[c,1] - xy_f[f,1])^2 + (xy_c[c,2] - xy_f[f,2])^2)
 
     model = JuMP.Model()
+
     @variable(model, x[1:m], Bin)
     @variable(model, y[1:n,1:m], Bin)
     @variable(model, w >= 0)
@@ -98,6 +100,7 @@ function main()
     plot!(p2, title = "P-Center")
 
     plot(p1, p2)
+    savefig("plot.png")
     return plot!()
 end
 

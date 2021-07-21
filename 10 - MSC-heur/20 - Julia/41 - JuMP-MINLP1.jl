@@ -1,7 +1,5 @@
 using JuMP
-using Cbc     # MIP   SOLVER
-using Ipopt   # NL    SOLVER
-using Juniper # MINLP SOLVER
+using SCIP
 
 function exJuMP()
     v = [10,20,12,23,42]
@@ -12,15 +10,11 @@ function exJuMP()
     m = JuMP.Model()
     @variable(m, x[1:n], Bin)
     @objective(m, Max, sum(v .* x))
-    @NLconstraint(m, sum(w[i]*x[i]^2 for i in 1:n) <= 45)
+    @constraint(m, sum(w .* x .* x) <= 45)
 
     println(m)
 
-    nl_solver = JuMP.optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0)
-    mip_solver = JuMP.optimizer_with_attributes(Cbc.Optimizer, "logLevel" => 0)
-    minlp_solver = JuMP.optimizer_with_attributes(Juniper.Optimizer, "nl_solver"=>nl_solver, "mip_solver"=>mip_solver, "log_levels"=>[])
-
-    JuMP.set_optimizer(m, minlp_solver)
+    JuMP.set_optimizer(m, SCIP.Optimizer)
     JuMP.optimize!(m)
 
     @show JuMP.termination_status(m)

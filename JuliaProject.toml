@@ -2,6 +2,7 @@
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
 GLPK = "60bf3e95-4087-53dc-ae20-288a0d20c6a6"
+SCIP = "82193955-e24f-5292-bf16-6f2c5261a85f"
 
 [compat]
 julia = "~1.6"
