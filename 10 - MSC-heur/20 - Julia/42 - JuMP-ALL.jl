@@ -12,8 +12,8 @@ using Pavito, Ipopt  # MINLP
 
 function main()
     m = JuMP.Model()
-    @variable(m, x >=0)
-    @variable(m, y >=0, Bin)
+    @variable(m, x >= 0)
+    @variable(m, y >= 0, Bin)
     @objective(m, Min, y)
     @constraint(m, y >= x - 1)
 
@@ -36,21 +36,32 @@ function main()
     amplexe = "/Users/rlinfati/Applications/ampl_macos64/xpress" # MILP
     amplexe = "/Users/rlinfati/Applications/ampl_macos64/knitro" # MILP, MINLP
     minlpSOLVER = () -> AmplNLWriter.Optimizer(amplexe)
-    minlpSOLVER = () -> NEOSServer.Optimizer(email="user@domain.tld", solver="MOSEK")
+    minlpSOLVER = () -> NEOSServer.Optimizer(email = "user@domain.tld", solver = "MOSEK")
     # CPLEX, FICO-Xpress, Gurobi, Ipopt, MOSEK and SNOPT.
 
     # ** MINLP **
     IpoptSolver = JuMP.optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0)
     CbcSolver = JuMP.optimizer_with_attributes(Cbc.Optimizer, "logLevel" => 0)
-    JuniperSolver = JuMP.optimizer_with_attributes(Juniper.Optimizer, "nl_solver"=>IpoptSolver, "mip_solver"=>CbcSolver, "log_levels"=>[])
+    JuniperSolver = JuMP.optimizer_with_attributes(
+        Juniper.Optimizer,
+        "nl_solver" => IpoptSolver,
+        "mip_solver" => CbcSolver,
+        "log_levels" => [],
+    )
 
     minlpSOLVER = JuniperSolver
-    minlpSOLVER = JuMP.optimizer_with_attributes(Alpine.Optimizer, "nlp_solver"=>IpoptSolver, "mip_solver"=>CbcSolver, "minlp_solver"=>JuniperSolver)
-    minlpSOLVER = JuMP.optimizer_with_attributes(Pavito.Optimizer, "cont_solver"=>IpoptSolver, "mip_solver"=>CbcSolver)
+    minlpSOLVER = JuMP.optimizer_with_attributes(
+        Alpine.Optimizer,
+        "nlp_solver" => IpoptSolver,
+        "mip_solver" => CbcSolver,
+        "minlp_solver" => JuniperSolver,
+    )
+    minlpSOLVER =
+        JuMP.optimizer_with_attributes(Pavito.Optimizer, "cont_solver" => IpoptSolver, "mip_solver" => CbcSolver)
 
     JuMP.set_optimizer(m, mipSOLVER)
     JuMP.optimize!(m)
-    
+
     return
 end
 

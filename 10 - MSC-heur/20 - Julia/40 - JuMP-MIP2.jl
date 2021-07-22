@@ -10,7 +10,7 @@ function exJuMP()
 
     @objective(m, Min, x1)
 
-    @constraint(m, r1, 12345*x1 == 23456*x2 + 34567*x3)
+    @constraint(m, r1, 12345 * x1 == 23456 * x2 + 34567 * x3)
 
     println(m)
 
@@ -41,7 +41,7 @@ function exJuMP()
     @show JuMP.objective_value(m)
     @show JuMP.objective_bound(m)
     @show JuMP.value.([x1, x2, x3])
-    
+
     return
 end
 

@@ -5,13 +5,13 @@ using Statistics
 function tspPlot(xy::Array{Float64,2}, tour::Array{Int,1})
     n, _ = size(xy)
 
-    plot(legend=false)
-    scatter!(xy[:,1], xy[:,2], color=:blue)
+    plot(legend = false)
+    scatter!(xy[:, 1], xy[:, 2], color = :blue)
     for i in 1:n
-        annotate!(xy[i,1], xy[i,2], text("$i", :top))
+        annotate!(xy[i, 1], xy[i, 2], text("$i", :top))
     end
 
-    plot!(xy[tour,1] , xy[tour,2] , color=:black)
+    plot!(xy[tour, 1], xy[tour, 2], color = :black)
 
     return plot!()
 end
@@ -37,26 +37,26 @@ function mhACO(dist::Array{Float64,2}, s::Int = 0)
     qfer = 100.0
 
     nHormigas = 2 * n
-    maxiter   = 10 * n
+    maxiter = 10 * n
 
     tau::Array{Float64,2} = ones(n, n)
     eta::Array{Float64,2} = mean(dist) ./ dist
-    for i in 1:n eta[i,i] = eps() end
+    for i in 1:n eta[i, i] = eps() end
 
-    busqueda0 = [   ] # promedio ztour
-    busqueda1 = [   ] # mejor    ztour
-    mejortour = [ 0 ]
+    busqueda0 = [] # promedio ztour
+    busqueda1 = [] # mejor    ztour
+    mejortour = [0]
 
     for _ in 1:maxiter
         tours = []
         for _ in 1:nHormigas
-            tour = Int[ s ]
+            tour = Int[s]
 
             novisited = ones(n)
             novisited[s] = 0.0
 
             while sum(novisited) > 0.0
-                pxy = tau[tour[end],:].^alpha .* eta[tour[end],:].^betha .* novisited
+                pxy = tau[tour[end], :] .^ alpha .* eta[tour[end], :] .^ betha .* novisited
                 pxy = pxy ./ sum(pxy)
 
                 next = 0
@@ -110,7 +110,7 @@ function main(n::Int = 10)
     Random.seed!(1234)
     xy = rand(n, 2) * 1_000.0
     dist = [sqrt((xy[i, 1] - xy[j, 1])^2 + (xy[i, 2] - xy[j, 2])^2) for i in 1:n, j in 1:n]
-    
+
     tour = mhACO(dist)
     @show tspDist(dist, tour)
 

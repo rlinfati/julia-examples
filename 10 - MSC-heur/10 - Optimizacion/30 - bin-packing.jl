@@ -22,7 +22,7 @@ function MIPModel(w::Array{Int,1}, c::Int)
 
     for i in 1:n
         if JuMP.value(y[i]) ≈ 0.0 continue end
-        wval = [w[j] for j in 1:n if JuMP.value(x[i,j]) ≈ 1.0]
+        wval = [w[j] for j in 1:n if JuMP.value(x[i, j]) ≈ 1.0]
         u = sum(wval)
         # u == w' * JuMP.value.(x[i,:])
         println("bin $i - used $u/$c = $wval")
@@ -33,7 +33,7 @@ end
 
 function heurNF(w::Array{Int,1}, c::Int)
     n = length(w)
-    bin = [ Int[] ]
+    bin = [Int[]]
     for i in 1:n
         if sum(bin[end]) + w[i] <= c
             push!(bin[end], w[i])
@@ -44,7 +44,7 @@ function heurNF(w::Array{Int,1}, c::Int)
     end
 
     for i in 1:length(bin)
-        u = sum( bin[i] )
+        u = sum(bin[i])
         println("bin $i - used $u/$c = $(bin[i])")
     end
 
@@ -53,7 +53,7 @@ end
 
 function heurFF(w::Array{Int,1}, c::Int)
     n = length(w)
-    bin = [ Int[] ]
+    bin = [Int[]]
     for i in 1:n
         estaOK = false
         for j in 1:length(bin)
@@ -70,7 +70,7 @@ function heurFF(w::Array{Int,1}, c::Int)
     end
 
     for i in 1:length(bin)
-        u = sum( bin[i] )
+        u = sum(bin[i])
         println("bin $i - used $u/$c = $(bin[i])")
     end
 
@@ -79,7 +79,7 @@ end
 
 function heurBF(w::Array{Int,1}, c::Int)
     n = length(w)
-    bin = [ Int[] ]
+    bin = [Int[]]
     for i in 1:n
         u = [sum(bin[i]) for i in 1:length(bin)]
         while true
@@ -99,7 +99,7 @@ function heurBF(w::Array{Int,1}, c::Int)
     end
 
     for i in 1:length(bin)
-        u = sum( bin[i] )
+        u = sum(bin[i])
         println("bin $i - used $u/$c = $(bin[i])")
     end
 
@@ -143,7 +143,7 @@ function main()
     println("** MIP Model")
     v1, t1 = @timed MIPModel(w, c)
     println("** RESUMEN 3 - MODELO")
-    println("** MIP tiempo = ", t1, '\t', "#bins = ", v1)    
+    println("** MIP tiempo = ", t1, '\t', "#bins = ", v1)
 
     return
 end

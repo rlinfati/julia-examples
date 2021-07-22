@@ -3,15 +3,15 @@ using GLPK
 
 function exJuMP()
     ㊭ = JuMP.Model()
-    
+
     @variable(㊭, 💻 >= 0)
     @variable(㊭, 📱 >= 0)
 
-    @objective(㊭,  Max, 3 * 💻 + 5 * 📱)
+    @objective(㊭, Max, 3 * 💻 + 5 * 📱)
 
-    @constraint(㊭,          💻          <= 4)
-    @constraint(㊭,               2 * 📱 <= 12)
-    @constraint(㊭,      3 * 💻 + 2 * 📱 <= 18)
+    @constraint(㊭, 💻 <= 4)
+    @constraint(㊭, 2 * 📱 <= 12)
+    @constraint(㊭, 3 * 💻 + 2 * 📱 <= 18)
 
     println(㊭)
 
@@ -20,7 +20,7 @@ function exJuMP()
 
     @show JuMP.value(💻)
     @show JuMP.value(📱)
-    @show JuMP.value(3*💻 + 5*📱)
+    @show JuMP.value(3 * 💻 + 5 * 📱)
     return
 end
 

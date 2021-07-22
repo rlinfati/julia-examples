@@ -1,24 +1,24 @@
+if true == false
+    import Pkg
+    Pkg.add("Combinatorics")
+end
+
 using JuMP
 using GLPK
 using Plots
 using Random
-
-if true==false
-    import Pkg
-    Pkg.add("Combinatorics")
-end
 using Combinatorics
 
 function tspPlot(xy::Array{Float64,2}, tour::Array{Int,1})
     n, _ = size(xy)
 
-    plot(legend=false)
-    scatter!(xy[:,1], xy[:,2], color=:blue)
+    plot(legend = false)
+    scatter!(xy[:, 1], xy[:, 2], color = :blue)
     for i in 1:n
-        annotate!(xy[i,1], xy[i,2], text("$i", :top))
+        annotate!(xy[i, 1], xy[i, 2], text("$i", :top))
     end
 
-    plot!(xy[tour,1] , xy[tour,2] , color=:black)
+    plot!(xy[tour, 1], xy[tour, 2], color = :black)
 
     return plot!()
 end
@@ -34,7 +34,7 @@ function tspDFJ(dist::Array{Float64,2})
     @constraint(m, r1[i in 1:n], sum(x[i, :]) == 1)
     @constraint(m, r2[j in 1:n], sum(x[:, j]) == 1)
     # SEC Dantzig-Fulkerson-Johnson formulation
-    for s in powerset(1:n, 2, n-1)
+    for s in powerset(1:n, 2, n - 1)
         @constraint(m, sum(x[i, j] for i in s, j in s) <= length(s) - 1)
     end
 
@@ -56,7 +56,7 @@ function tspDFJ(dist::Array{Float64,2})
         push!(tour, argmax(xval[tour[end], :]))
         if tour[end] == 1 break end
     end
-    
+
     # SOLUCION
     @show tour
     @show sum(dist[tour[i], tour[i+1]] for i in 1:n)

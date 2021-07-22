@@ -9,7 +9,7 @@ function mip_is_hard()
     @variable(m, x3 >= 0, Int)
 
     @objective(m, Min, x1)
-    @constraint(m, r1, 1234*x1 == 2345*x2 + 3456*x3)
+    @constraint(m, r1, 1234 * x1 == 2345 * x2 + 3456 * x3)
 
     JuMP.set_optimizer(m, GLPK.Optimizer)
     JuMP.set_optimizer_attribute(m, "msg_lev", GLP_MSG_ALL)
@@ -52,7 +52,7 @@ function mip_is_hard()
         println("** myCallbackUserCut node_status = $(ret)")
 
         if x_val[1] >= 1728.0 - eps(Float16) return end
-        
+
         con = @build_constraint(x[3] >= 617.0)
         ret = MOI.submit(m, MOI.UserCut(cb_data), con)
         println("** myCallbackUserCut status = $(ret)")

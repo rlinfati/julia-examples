@@ -5,13 +5,13 @@ using Statistics
 function tspPlot(xy::Array{Float64,2}, tour::Array{Int,1})
     n, _ = size(xy)
 
-    plot(legend=false)
-    scatter!(xy[:,1], xy[:,2], color=:blue)
+    plot(legend = false)
+    scatter!(xy[:, 1], xy[:, 2], color = :blue)
     for i in 1:n
-        annotate!(xy[i,1], xy[i,2], text("$i", :top))
+        annotate!(xy[i, 1], xy[i, 2], text("$i", :top))
     end
 
-    plot!(xy[tour,1] , xy[tour,2] , color=:black)
+    plot!(xy[tour, 1], xy[tour, 2], color = :black)
 
     return plot!()
 end
@@ -128,12 +128,14 @@ function mhGA(dist::Array{Float64,2})
     pCruzamiento::Float64 = 0.80
     pMutacion::Float64 = 0.05
 
-    busqueda0 = [   ] # promedio ztour
-    busqueda1 = [   ] # mejor    ztour
-    mejortour = [ 0 ]
+    busqueda0 = [] # promedio ztour
+    busqueda1 = [] # mejor    ztour
+    mejortour = [0]
 
     Poblacion = [randperm(n) for _ in 1:nPoblacion]
-    for ind in Poblacion push!(ind, ind[1]) end
+    for ind in Poblacion
+        push!(ind, ind[1])
+    end
 
     for _ in 1:nGeneraciones
         while length(Poblacion) < 2 * nPoblacion
@@ -169,7 +171,7 @@ function mhGA(dist::Array{Float64,2})
         end
 
         fitness = mean(zt) ./ zt
-        sel = gaBestK(fitness, floor(Int, nPoblacion/5.0))
+        sel = gaBestK(fitness, floor(Int, nPoblacion / 5.0))
         newPob = unique(vcat([mejortour], Poblacion[sel]))
         while length(newPob) < nPoblacion
             sel = gaDuelo(fitness, nPoblacion - length(newPob))
@@ -190,7 +192,7 @@ function main(n::Int = 10)
     Random.seed!(1234)
     xy = rand(n, 2) * 1_000.0
     dist = [sqrt((xy[i, 1] - xy[j, 1])^2 + (xy[i, 2] - xy[j, 2])^2) for i in 1:n, j in 1:n]
-    
+
     tour = mhGA(dist)
     @show tspDist(dist, tour)
 

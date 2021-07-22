@@ -7,8 +7,8 @@ function exJuMP(n::Int = 5)
 
     @variable(m, x[1:n, 1:n], Bin)
     @objective(m, Min, sum(c .* x))
-    @constraint(m, ai[j in 1:n], sum(x[:,j]) == 1)
-    @constraint(m, aj[i in 1:n], sum(x[i,:]) == 1)
+    @constraint(m, ai[j in 1:n], sum(x[:, j]) == 1)
+    @constraint(m, aj[i in 1:n], sum(x[i, :]) == 1)
 
     JuMP.set_optimizer(m, GLPK.Optimizer)
     JuMP.optimize!(m)
@@ -24,7 +24,7 @@ function exJuMP(n::Int = 5)
 
     @show xval = JuMP.value.(x)
     for i in 1:n
-        println(i, " x ", argmax(xval[i,:]))
+        println(i, " x ", argmax(xval[i, :]))
     end
 
     return

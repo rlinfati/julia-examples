@@ -9,7 +9,7 @@ function mip_is_hard()
     @variable(m, x3 >= 0, Int)
 
     @objective(m, Min, x1)
-    @constraint(m, r1, 1234*x1 == 2345*x2 + 3456*x3)
+    @constraint(m, r1, 1234 * x1 == 2345 * x2 + 3456 * x3)
 
     JuMP.set_optimizer(m, GLPK.Optimizer)
     JuMP.set_optimizer_attribute(m, "msg_lev", GLP_MSG_ALL)

@@ -13,8 +13,7 @@ function tspXYCluster(n::Int, myseed::Int = 1234)
 
     for i in (cs+1):n
         while true
-            dps = sum(exp(-sqrt((xy[i, 1] - xy[j, 1])^2
-                                + (xy[i, 2] - xy[j, 2])^2) / 40.0) for j in 1:cs)
+            dps = sum(exp(-sqrt((xy[i, 1] - xy[j, 1])^2 + (xy[i, 2] - xy[j, 2])^2) / 40.0) for j in 1:cs)
 
             if rand() < dps break end
 
@@ -47,21 +46,21 @@ function distGeographical(xy::Array{Float64,2})
     n, _ = size(xy)
     # xy = DDD.MM format
     # dist = GEO from TSPLIB
-    lat = floor.(xy[:,1])
-    lat += (xy[:,1] - lat) * 5.0 / 3.0
+    lat = floor.(xy[:, 1])
+    lat += (xy[:, 1] - lat) * 5.0 / 3.0
     lat *= π / 180.0
 
-    lon = floor.(xy[:,2])
-    lon += (xy[:,2] - lon) * 5.0 / 3.0
+    lon = floor.(xy[:, 2])
+    lon += (xy[:, 2] - lon) * 5.0 / 3.0
     lon *= π / 180.0
 
-    q1 = [cos(lon[i] - lon[j]) for i in 1:n, j in 1:n ]
-    q2 = [cos(lat[i] - lat[j]) for i in 1:n, j in 1:n ]
-    q3 = [cos(lat[i] + lat[j]) for i in 1:n, j in 1:n ]
+    q1 = [cos(lon[i] - lon[j]) for i in 1:n, j in 1:n]
+    q2 = [cos(lat[i] - lat[j]) for i in 1:n, j in 1:n]
+    q3 = [cos(lat[i] + lat[j]) for i in 1:n, j in 1:n]
 
     rrr = 6378.388
 
-    dist = 0.5 .* ( (1.0 .+ q1) .* q2 - (1.0 .- q1) .* q3 )
+    dist = 0.5 .* ((1.0 .+ q1) .* q2 - (1.0 .- q1) .* q3)
     dist = rrr .* acos.(dist)
 
     return dist

@@ -11,7 +11,7 @@ function exJuMP()
     @variable(m, x[1:2] >= 0)
     @objective(m, Max, c' * x)
     @constraint(m, A * x .<= b)
-    
+
     JuMP.set_optimizer(m, GLPK.Optimizer)
     JuMP.optimize!(m)
     @show JuMP.solve_time(m)
@@ -38,7 +38,7 @@ function exJuMP()
 
     println()
 
-    if JuMP.has_duals(m) 
+    if JuMP.has_duals(m)
         for i in list_of_constraint_types(m)
             if i[1] == VariableRef continue end
 

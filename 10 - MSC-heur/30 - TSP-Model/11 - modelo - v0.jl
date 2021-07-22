@@ -37,25 +37,24 @@ function exTSP0()
     @constraint(m, sum(x[i, j] for i in tour, j in tour) <= length(tour) - 1)
     tour = [4, 10, 5, 1, 8]
     @constraint(m, sum(x[i, j] for i in tour, j in tour) <= length(tour) - 1)
-    tour = [4, 10],
+    tour = [4, 10]
     @constraint(m, sum(x[i, j] for i in tour, j in tour) <= length(tour) - 1)
     tour = [1, 5, 6, 2, 3, 9, 7, 8]
     @constraint(m, sum(x[i, j] for i in tour, j in tour) <= length(tour) - 1)
 
     # SOLUCION
     JuMP.optimize!(m)
-    xpar = [ [i,j] for i in 1:n, j in 1:n if JuMP.value(x[i, j]) ≈ 1.0 ]
-    plot(legend=false)
-    scatter!(xy[:,1], xy[:,2], color=:blue)
+    xpar = [[i, j] for i in 1:n, j in 1:n if JuMP.value(x[i, j]) ≈ 1.0]
+    plot(legend = false)
+    scatter!(xy[:, 1], xy[:, 2], color = :blue)
     for i in 1:n
-        annotate!(xy[i,1], xy[i,2], text("$i", :top))
+        annotate!(xy[i, 1], xy[i, 2], text("$i", :top))
     end
     for i in xpar
-        plot!(xy[i,1] , xy[i,2] , color=:black)
+        plot!(xy[i, 1], xy[i, 2], color = :black)
     end
-    
+
     return plot!()
 end
 
 exTSP0()
-

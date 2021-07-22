@@ -2,8 +2,8 @@ using JuMP
 using SCIP
 
 function exJuMP()
-    v = [10,20,12,23,42]
-    w = [12,45,12,22,21]
+    v = [10, 20, 12, 23, 42]
+    w = [12, 45, 12, 22, 21]
     n = length(v)
     @assert length(v) == length(w)
 

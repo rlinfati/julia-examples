@@ -1,4 +1,4 @@
-if true==false
+if true == false
     import Pkg
     Pkg.add("JuMP")
     Pkg.add("GLPK")
@@ -39,9 +39,9 @@ function ejemplo0(n::Int = 10)
     println("Solve Time: ", JuMP.solve_time(m))
     println("Tour: ", tour)
 
-    p = plot(legend=false)
-    scatter!(xy[:,1], xy[:,2], color=:blue)
-    plot!(xy[tour,1] , xy[tour,2] , color=:black)
+    p = plot(legend = false)
+    scatter!(xy[:, 1], xy[:, 2], color = :blue)
+    plot!(xy[tour, 1], xy[tour, 2], color = :black)
 
     return p
 end
